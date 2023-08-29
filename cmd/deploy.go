@@ -43,10 +43,11 @@ func Deploy(app, image, version, env string) {
 
 	k8sDeployName := "deployment.v1.apps/" + app
 
+	runCmd("whoami")
 	runCmd("docker", "build", "-t", iv, "-t", il, ".")
 	runCmd("docker", "push", iv)
 	runCmd("docker", "push", il)
-	runCmd("kubectl", "--kubeconfig", "~/.kube/"+env+".config", "--record", k8sDeployName, "set", "image", k8sDeployName, app+"="+iv)
+	runCmd("kubectl", "--kubeconfig", "/home/ci/.kube/"+env+".config", "--record", k8sDeployName, "set", "image", k8sDeployName, app+"="+iv)
 
 }
 
