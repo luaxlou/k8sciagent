@@ -44,7 +44,7 @@ func Deploy(app, image, version, env string) {
 	k8sDeployName := "deployment.v1.apps/" + app
 
 	runCmd("whoami")
-	runCmd("cd ~")
+	runCmd("cd /home/ci")
 	runCmd("docker", "build", "-t", iv, "-t", il, ".")
 	runCmd("docker", "push", iv)
 	runCmd("docker", "push", il)
