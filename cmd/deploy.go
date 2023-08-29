@@ -49,7 +49,7 @@ func Deploy(app, image, version, env string) {
 	runCmd(ctx, "docker", "build", "-t", iv, "-t", il, ".")
 	runCmd(ctx, "docker", "push", iv)
 	runCmd(ctx, "docker", "push", il)
-	runCmd(ctx, "kubectl", "--kubeconfig", "~/.kube/"+env+".config", "--record", k8sDeployName, "set", "image", k8sDeployName, app+"="+iv)
+	runCmd(ctx, "kubectl", "--kubeconfig", "/etc/kubectl/"+env+".config", "--record", k8sDeployName, "set", "image", k8sDeployName, app+"="+iv)
 
 }
 
