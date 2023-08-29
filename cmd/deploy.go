@@ -4,6 +4,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"github.com/spf13/cobra"
 	"log"
@@ -41,19 +42,21 @@ func Deploy(app, image, version, env string) {
 	iv := image + ":" + version
 	il := image + ":latest"
 
+	ctx := context.Background()
+
 	k8sDeployName := "deployment.v1.apps/" + app
 
-	runCmd("whoami")
-	runCmd("cd /home/ci")
-	runCmd("docker", "build", "-t", iv, "-t", il, ".")
-	runCmd("docker", "push", iv)
-	runCmd("docker", "push", il)
-	runCmd("kubectl", "--kubeconfig", "~/.kube/"+env+".config", "--record", k8sDeployName, "set", "image", k8sDeployName, app+"="+iv)
+	runCmd(ctx, "whoami")
+	runCmd(ctx, "cd /home/ci")
+	runCmd(ctx, "docker", "build", "-t", iv, "-t", il, ".")
+	runCmd(ctx, "docker", "push", iv)
+	runCmd(ctx, "docker", "push", il)
+	runCmd(ctx, "kubectl", "--kubeconfig", "~/.kube/"+env+".config", "--record", k8sDeployName, "set", "image", k8sDeployName, app+"="+iv)
 
 }
 
-func runCmd(cmdName string, arg ...string) {
-	cmd := exec.Command(cmdName, arg...)
+func runCmd(ctx context.Context, cmdName string, arg ...string) {
+	cmd := exec.CommandContext(ctx, cmdName, arg...)
 	log.Println(cmd.String())
 	out, err := cmd.CombinedOutput()
 
