@@ -30,10 +30,10 @@ var deployCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(deployCmd)
 
-	rootCmd.Flags().StringP("version", "v", "", "new app version")
-	rootCmd.Flags().StringP("image", "i", "", "docker image name")
-	rootCmd.Flags().StringP("app", "a", "", "app name")
-	rootCmd.Flags().StringP("env", "e", "", "env")
+	deployCmd.Flags().StringP("version", "v", "", "new app version")
+	deployCmd.Flags().StringP("image", "i", "", "docker image name")
+	deployCmd.Flags().StringP("app", "a", "", "app name")
+	deployCmd.Flags().StringP("env", "e", "", "env")
 }
 
 func Deploy(app, image, version, env string) {
