@@ -1,9 +1,7 @@
 # k8sciagent
 
-Apifox api文档的导入工具
 
-
--[x] 导入openapi格式
+k8s CI 代理工具 避免直接调用k8s获得过高权限
  
 Install 
 
