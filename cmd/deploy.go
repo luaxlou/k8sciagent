@@ -39,13 +39,13 @@ func init() {
 func Deploy(app, image, version, env string) {
 
 	iv := image + ":" + version
+	il := image + ":latest"
 
 	k8sDeployName := "deployment.v1.apps/" + app
 
-	runCmd("docker", "build", "-t", iv, ".")
-	runCmd("docker", "build", "-t", image+":latest", ".")
+	runCmd("docker", "build", "-t", iv, il, ".")
 	runCmd("docker", "push", iv)
-	runCmd("docker", "push", "latest")
+	runCmd("docker", "push", il)
 	runCmd("kubectl", "--kubeconfig", env+".config", "--record", k8sDeployName, "set", "image", k8sDeployName, app+"="+iv)
 
 }
