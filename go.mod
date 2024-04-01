@@ -1,8 +1,8 @@
 module github.com/luaxlou/k8sciagent
 
-go 1.21.0
+go 1.22.1
 
-require github.com/spf13/cobra v1.7.0
+require github.com/spf13/cobra v1.8.0
 
 require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect

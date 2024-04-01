@@ -23,8 +23,9 @@ var deployCmd = &cobra.Command{
 		image, _ := cmd.Flags().GetString("image")
 		app, _ := cmd.Flags().GetString("app")
 		env, _ := cmd.Flags().GetString("env")
+		path, _ := cmd.Flags().GetString("path")
 
-		Deploy(app, image, version, env)
+		Deploy(app, image, version, env, path)
 	},
 }
 
@@ -35,9 +36,10 @@ func init() {
 	deployCmd.Flags().StringP("image", "i", "", "docker image name")
 	deployCmd.Flags().StringP("app", "a", "", "app name")
 	deployCmd.Flags().StringP("env", "e", "", "env")
+	deployCmd.Flags().StringP("path", "p", ".", "docker context path")
 }
 
-func Deploy(app, image, version, env string) {
+func Deploy(app, image, version, env, path string) {
 
 	iv := image + ":" + version
 	il := image + ":latest"
@@ -46,7 +48,7 @@ func Deploy(app, image, version, env string) {
 
 	k8sDeployName := "deployment.v1.apps/" + app
 
-	runCmd(ctx, "docker", "build", "-t", iv, "-t", il, ".")
+	runCmd(ctx, "docker", "build", "-t", iv, "-t", il, path)
 	runCmd(ctx, "docker", "push", iv)
 	runCmd(ctx, "docker", "push", il)
 	runCmd(ctx, "kubectl", "--kubeconfig", "/etc/kubectl/"+env+".config", "--record", k8sDeployName, "set", "image", k8sDeployName, app+"="+iv)
