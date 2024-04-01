@@ -12,5 +12,5 @@ CMD ["echo","hello world"]
 `
 
 	os.WriteFile("Dockerfile", []byte(df), 0666)
-	Deploy("a", "b", "c", "d")
+	Deploy("a", "b", "c", "d", "e")
 }
